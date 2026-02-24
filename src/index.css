@@ -86,6 +86,16 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body, #root { height: 100%; overflow: hidden; }
 html { -webkit-text-size-adjust: 100%; }   /* prevent iOS font scaling on rotate */
+
+/* Full-viewport container that accounts for iOS Safari's collapsing address bar.
+   100vh includes space behind the browser chrome; 100dvh is the actual visible area. */
+.app-shell {
+  height: 100vh;      /* fallback for older browsers */
+  height: 100dvh;     /* dynamic viewport — hides/shows with browser chrome */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 body {
   background: var(--bg);
   color: var(--text);

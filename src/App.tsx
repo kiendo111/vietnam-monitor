@@ -59,7 +59,7 @@ export default function App() {
   // ── MOBILE LAYOUT ──────────────────────────────────────────────
   if (isMobile) {
     return (
-      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div className="app-shell">
         {sharedHeader}
         <Ticker indicators={econ.indicators} loading={econ.loading} />
         <TyphoonAlert typhoon={typhoon} />
@@ -122,7 +122,7 @@ export default function App() {
 
   // ── DESKTOP LAYOUT ─────────────────────────────────────────────
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div className="app-shell">
       {sharedHeader}
       <Ticker indicators={econ.indicators} loading={econ.loading} />
       <TyphoonAlert typhoon={typhoon} />
