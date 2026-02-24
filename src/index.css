@@ -1,0 +1,119 @@
+/* src/index.css — Design system: colors, fonts, resets, animations */
+
+@import '@fontsource/space-mono/400.css';
+@import '@fontsource/space-mono/700.css';
+@import '@fontsource/be-vietnam-pro/300.css';
+@import '@fontsource/be-vietnam-pro/400.css';
+@import '@fontsource/be-vietnam-pro/600.css';
+@import '@fontsource/be-vietnam-pro/700.css';
+@import '@fontsource/be-vietnam-pro/800.css';
+
+/* ── DESIGN TOKENS ─────────────────────────────────────────────── */
+:root {
+  /* Backgrounds — layered from darkest to lightest */
+  --bg:     #090C0F;
+  --bg2:    #10141A;
+  --bg3:    #181D26;
+  --bg4:    #1F2633;
+
+  /* Brand colors from Vietnamese flag */
+  --red:    #C8102E;
+  --red-dim:#7A0A1C;
+  --gold:   #F5A623;
+
+  /* Text */
+  --text:   #DDE3EE;
+  --muted:  #4E5A70;
+  --faint:  #2A3344;
+
+  /* Semantic */
+  --green:  #22C55E;
+  --orange: #F97316;
+  --blue:   #3B82F6;
+
+  /* AQI colors */
+  --aqi-good:         #22C55E;
+  --aqi-moderate:     #F5A623;
+  --aqi-unhealthy:    #F97316;
+  --aqi-very-unhealthy:#C8102E;
+  --aqi-hazardous:    #7C3AED;
+
+  /* Border */
+  --border: #1E2535;
+
+  /* Fonts */
+  --font-mono: 'Space Mono', monospace;
+  --font-body: 'Be Vietnam Pro', sans-serif;
+}
+
+/* ── RESET ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; overflow: hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SCROLLBARS ─────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--faint); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────── */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+
+@keyframes ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── UTILITY CLASSES ────────────────────────────────────────────── */
+.mono  { font-family: var(--font-mono); }
+.muted { color: var(--muted); }
+.up    { color: var(--green); }
+.down  { color: var(--red); }
+.gold  { color: var(--gold); }
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.section-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
