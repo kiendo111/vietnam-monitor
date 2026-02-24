@@ -113,7 +113,7 @@ export default function RightPanel() {
       </section>
 
       {/* ── GOOGLE TRENDS ───────────────────────────── */}
-      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flexShrink: 0 }}>
+      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flex: '1 1 auto', overflowY: 'auto', minHeight: 0 }}>
         <div className="section-title">Google Trends · Việt Nam</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           {GOOGLE_TRENDS.map(trend => (

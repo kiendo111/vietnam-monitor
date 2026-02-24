@@ -70,10 +70,10 @@ export default function App() {
           {/* ── NEWS TAB ───────────────────────── */}
           {activeTab === 'news' && (
             <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+              <div style={{ flex: 3, minHeight: 0, overflow: 'hidden' }}>
                 <NewsFeed articles={news.articles} loading={news.loading} error={news.error} />
               </div>
-              <div style={{ height: 220, overflow: 'auto', flexShrink: 0 }}>
+              <div style={{ flex: 2, minHeight: 0, overflow: 'auto' }}>
                 <VideoNews />
               </div>
             </div>
