@@ -39,13 +39,14 @@ export default function RightPanel() {
       flexDirection: 'column',
       overflow: 'hidden',
       background: 'var(--bg)',
+      height: '100%',
     }}>
 
       {/* ── WEATHER + AQI ─────────────────────────────────── */}
       <section style={{
         padding: 16,
         borderBottom: '1px solid var(--border)',
-        flex: '1 1 auto',
+        flex: 1,
         overflowY: 'auto',
         minHeight: 0,
       }}>
@@ -113,7 +114,7 @@ export default function RightPanel() {
       </section>
 
       {/* ── GOOGLE TRENDS ───────────────────────────── */}
-      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flex: '1 1 auto', overflowY: 'auto', minHeight: 0 }}>
+      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flex: 1, overflowY: 'auto', minHeight: 0 }}>
         <div className="section-title">Google Trends · Việt Nam</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           {GOOGLE_TRENDS.map(trend => (
@@ -133,7 +134,7 @@ export default function RightPanel() {
       </section>
 
       {/* ── SOCIAL MEDIA TRENDS ─────────────────────── */}
-      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flex: '1 1 auto', overflowY: 'auto', minHeight: 0 }}>
+      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flex: 1, overflowY: 'auto', minHeight: 0 }}>
         <div className="section-title">Mạng xã hội · Đang thịnh hành</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {SOCIAL_TRENDS.map(trend => (

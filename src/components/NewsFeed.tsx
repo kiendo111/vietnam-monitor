@@ -56,7 +56,7 @@ export default function NewsFeed({ articles, loading, error }: NewsFeedProps) {
   const highSeverity = articles.filter(n => n.severity === 'high')
 
   return (
-    <main style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--bg)' }}>
+    <main style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden', background: 'var(--bg)', height: '100%' }}>
 
       {/* ── ERROR BANNER ─────────────────────────────────── */}
       {error && (

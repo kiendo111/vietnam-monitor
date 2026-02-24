@@ -12,6 +12,7 @@ export default function LeftPanel() {
       overflowY: 'auto',
       overflowX: 'hidden',
       background: 'var(--bg)',
+      height: '100%',
     }}>
       {/* ── AI BRIEF ─────────────────────────────────────── */}
       <section style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
