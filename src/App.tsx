@@ -83,7 +83,7 @@ export default function App() {
           {activeTab === 'monitor' && <RightPanel />}
 
           {/* ── SOURCES TAB ────────────────────── */}
-          {activeTab === 'sources' && <LeftPanel />}
+          {activeTab === 'sources' && <LeftPanel articles={news.articles} />}
         </div>
 
         {/* ── BOTTOM TAB BAR ─────────────────── */}
@@ -134,7 +134,7 @@ export default function App() {
         overflow: 'hidden',
         minHeight: 0,
       }}>
-        <LeftPanel />
+        <LeftPanel articles={news.articles} />
         <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
           <div style={{ flex: 1, overflow: 'auto' }}>
             <NewsFeed

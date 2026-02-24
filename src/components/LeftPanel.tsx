@@ -1,9 +1,17 @@
 // src/components/LeftPanel.tsx
-// Contains: AI Brief placeholder, Province activity, Source list
+// Contains: AI Brief, Province activity, Source list
 
 import { PROVINCES, SOURCES } from '../data/mock'
+import { useAiBrief } from '../hooks/useAiBrief'
+import type { NewsItem } from '../types'
 
-export default function LeftPanel() {
+interface LeftPanelProps {
+  articles: NewsItem[]
+}
+
+export default function LeftPanel({ articles }: LeftPanelProps) {
+  const { brief, loading, error, generate } = useAiBrief()
+
   return (
     <aside style={{
       borderRight: '1px solid var(--border)',
@@ -16,39 +24,50 @@ export default function LeftPanel() {
     }}>
       {/* ── AI BRIEF ─────────────────────────────────────── */}
       <section style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
-        <div className="section-title">AI Daily Brief</div>
+        <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          AI Daily Brief
+          <span style={{ fontSize: 8, color: 'var(--gold)', fontFamily: 'var(--font-mono)', marginLeft: 'auto' }}>
+            ◆ CLAUDE
+          </span>
+        </div>
         <div style={{
           background: 'var(--bg3)',
           border: '1px solid var(--border)',
-          borderLeft: '3px solid var(--red)',
+          borderLeft: `3px solid ${error ? 'var(--gold)' : 'var(--red)'}`,
           borderRadius: 3,
           padding: 14,
           fontSize: 12.5,
           lineHeight: 1.75,
-          color: 'var(--muted)',
-          fontStyle: 'italic',
           minHeight: 100,
+          color: brief ? 'var(--text)' : 'var(--muted)',
+          fontStyle: brief ? 'normal' : 'italic',
         }}>
-          Nhấn nút bên dưới để nhận bản phân tích tin tức Việt Nam hôm nay từ AI — tổng hợp từ Claude + tìm kiếm web thời gian thực.
+          {loading
+            ? <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--gold)' }}>◆ Đang phân tích tin tức…</span>
+            : error
+            ? error
+            : brief
+            ? brief
+            : 'Nhấn nút bên dưới để nhận bản phân tích tin tức Việt Nam hôm nay từ Claude AI.'}
         </div>
         <button
-          disabled
-          title="Tính năng AI sẽ được kích hoạt trong Phase 4"
+          onClick={() => generate(articles)}
+          disabled={loading}
           style={{
             marginTop: 10,
             width: '100%',
-            background: 'var(--bg3)',
-            color: 'var(--muted)',
-            border: '1px solid var(--border)',
+            background: loading ? 'var(--bg3)' : 'rgba(200,16,46,0.08)',
+            color: loading ? 'var(--muted)' : 'var(--red)',
+            border: `1px solid ${loading ? 'var(--border)' : 'rgba(200,16,46,0.3)'}`,
             padding: '8px 0',
             fontFamily: 'var(--font-mono)',
             fontSize: 10,
             letterSpacing: '0.1em',
             borderRadius: 3,
-            cursor: 'not-allowed',
+            cursor: loading ? 'not-allowed' : 'pointer',
           }}
         >
-          ◆ TẠO BẢN TÓM TẮT AI · SẮP RA MẮT
+          {loading ? '◆ ĐANG TẠO…' : '◆ TẠO BẢN TÓM TẮT AI'}
         </button>
       </section>
 
