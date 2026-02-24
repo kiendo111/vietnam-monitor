@@ -1,0 +1,31 @@
+{
+  "rewrites": [
+    { "source": "/api/nhandan/:path*",       "destination": "https://nhandan.vn/:path*" },
+    { "source": "/api/vietnamplus/:path*",   "destination": "https://vietnamplus.vn/:path*" },
+    { "source": "/api/baochinhphu/:path*",   "destination": "https://baochinhphu.vn/:path*" },
+    { "source": "/api/qdnd/:path*",          "destination": "https://qdnd.vn/:path*" },
+    { "source": "/api/thesaigontimes/:path*","destination": "https://thesaigontimes.vn/:path*" },
+    { "source": "/api/vneconomy/:path*",     "destination": "https://vneconomy.vn/:path*" },
+    { "source": "/api/baodautu/:path*",      "destination": "https://baodautu.vn/:path*" },
+    { "source": "/api/plo/:path*",           "destination": "https://plo.vn/:path*" },
+    { "source": "/api/bongdaplus/:path*",    "destination": "https://bongdaplus.vn/:path*" },
+    { "source": "/api/bongda/:path*",        "destination": "https://bongda.com.vn/:path*" },
+    { "source": "/api/thethaovanhoa/:path*", "destination": "https://thethaovanhoa.vn/:path*" },
+    { "source": "/api/vnexpress/:path*",     "destination": "https://vnexpress.net/:path*" },
+    { "source": "/api/kenh14/:path*",        "destination": "https://kenh14.vn/:path*" },
+    { "source": "/api/tuoitre/:path*",       "destination": "https://tuoitre.vn/:path*" },
+    { "source": "/api/tinhte/:path*",        "destination": "https://tinhte.vn/:path*" },
+    { "source": "/api/genk/:path*",          "destination": "https://genk.vn/:path*" },
+    { "source": "/api/evnexpress/:path*",    "destination": "https://e.vnexpress.net/:path*" },
+    { "source": "/api/vietnamnews/:path*",   "destination": "https://vietnamnews.vn/:path*" },
+    { "source": "/api/tuoitrenews/:path*",   "destination": "https://tuoitrenews.vn/:path*" },
+    { "source": "/api/vir/:path*",           "destination": "https://vir.com.vn/:path*" },
+    { "source": "/api/vtv/:path*",           "destination": "https://vtv.vn/:path*" },
+    { "source": "/api/vtcnews/:path*",       "destination": "https://vtcnews.vn/:path*" },
+    { "source": "/api/thanhnien/:path*",     "destination": "https://thanhnien.vn/:path*" },
+    { "source": "/api/stooq/:path*",         "destination": "https://stooq.com/:path*" },
+    { "source": "/api/arcgis/:path*",        "destination": "https://services9.arcgis.com/RHVPKKiFTONKtxq3/:path*" },
+    { "source": "/api/yahoo/:path*",         "destination": "https://query1.finance.yahoo.com/:path*" },
+    { "source": "/(.*)",                     "destination": "/index.html" }
+  ]
+}

@@ -77,6 +77,16 @@ export interface GoogleTrend {
   volume: string; // e.g. "50K+ searches"
 }
 
+export interface SocialTrend {
+  id: number;
+  rank: number;
+  topic: string;
+  platform: Platform;
+  volume: string;
+  direction: TrendDirection;
+  category: string;
+}
+
 export interface MovieTrend {
   id: number;
   rank: number;

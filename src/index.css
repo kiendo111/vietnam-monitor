@@ -11,10 +11,11 @@
 /* ── DESIGN TOKENS ─────────────────────────────────────────────── */
 :root {
   /* Backgrounds — layered from darkest to lightest */
-  --bg:     #090C0F;
-  --bg2:    #10141A;
-  --bg3:    #181D26;
-  --bg4:    #1F2633;
+  --bg:       #090C0F;
+  --bg2:      #10141A;
+  --bg3:      #181D26;
+  --bg4:      #1F2633;
+  --bg-active:#252D3D;
 
   /* Brand colors from Vietnamese flag */
   --red:    #C8102E;
@@ -32,11 +33,11 @@
   --blue:   #3B82F6;
 
   /* AQI colors */
-  --aqi-good:         #22C55E;
-  --aqi-moderate:     #F5A623;
-  --aqi-unhealthy:    #F97316;
+  --aqi-good:          #22C55E;
+  --aqi-moderate:      #F5A623;
+  --aqi-unhealthy:     #F97316;
   --aqi-very-unhealthy:#C8102E;
-  --aqi-hazardous:    #7C3AED;
+  --aqi-hazardous:     #7C3AED;
 
   /* Border */
   --border: #1E2535;
@@ -46,15 +47,52 @@
   --font-body: 'Be Vietnam Pro', sans-serif;
 }
 
+/* ── LIGHT THEME ────────────────────────────────────────────────── */
+[data-theme="light"] {
+  /* Warm ivory / pearl — no blue tint */
+  --bg:       #F9F6F0;
+  --bg2:      #F0EDE6;
+  --bg3:      #E6E1D8;
+  --bg4:      #DAD4C8;
+  --bg-active:#CFC8BA;
+
+  /* Desaturated red — pulled toward burgundy/crimson, less neon */
+  --red:    #A83040;
+  --red-dim:#EAC8CE;
+
+  /* Expensive deep gold — think aged gold leaf, not mustard */
+  --gold:   #9A7800;
+
+  /* Text — warm dark, not cold blue-black */
+  --text:   #1C1914;
+  --muted:  #7A7060;
+  --faint:  #C8C0B0;
+
+  --green:  #16A34A;
+  --orange: #EA6C06;
+  --blue:   #2563EB;
+
+  --aqi-good:          #16A34A;
+  --aqi-moderate:      #9A7800;
+  --aqi-unhealthy:     #EA6C06;
+  --aqi-very-unhealthy:#A83040;
+  --aqi-hazardous:     #7C3AED;
+
+  /* Warm border — matches cream palette */
+  --border: #D4CEC4;
+}
+
 /* ── RESET ─────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body, #root { height: 100%; overflow: hidden; }
+html { -webkit-text-size-adjust: 100%; }   /* prevent iOS font scaling on rotate */
 body {
   background: var(--bg);
   color: var(--text);
   font-family: var(--font-body);
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;              /* prevent bounce on iOS Safari */
 }
 
 /* ── SCROLLBARS ─────────────────────────────────────────────────── */

@@ -1,9 +1,6 @@
-import { useState } from 'react';
-import { GOOGLE_TRENDS } from '../data/mock';
+import { GOOGLE_TRENDS, SOCIAL_TRENDS } from '../data/mock';
 import { useWeather } from '../hooks/useWeather';
-import { useSpotify } from '../hooks/useSpotify';
-import { useTmdb } from '../hooks/useTmdb';
-import type { AqiLevel, EconIndicator, GoogleTrend, MovieTrend, SpotifyAlbum, SpotifyArtist, SpotifyTrack } from '../types';
+import type { AqiLevel, Platform } from '../types';
 
 // Maps AQI level to color and Vietnamese label
 const AQI_CONFIG: Record<AqiLevel, { color: string; label: string }> = {
@@ -14,24 +11,26 @@ const AQI_CONFIG: Record<AqiLevel, { color: string; label: string }> = {
   'hazardous':     { color: 'var(--aqi-hazardous)',     label: 'Nguy hại' },
 }
 
-const PLATFORM_COLOR: Record<MovieTrend['platform'], string> = {
-  'Netflix': '#E50914',
-  'Galaxy Play': '#FFFFFF',
-  'K+': '#009a4c',
-};
-
-type SpotifyTab = 'songs' | 'albums' | 'artists';
-
-interface RightPanelProps {
-  indicators: EconIndicator[];
-  econLoading: boolean;
+const PLATFORM_LABEL: Record<Platform, string> = {
+  facebook:  'FB',
+  tiktok:    'TT',
+  zalo:      'ZL',
+  youtube:   'YT',
+  threads:   'TH',
+  instagram: 'IG',
 }
 
-export default function RightPanel({ indicators, econLoading }: RightPanelProps) {
+const PLATFORM_COLOR: Record<Platform, string> = {
+  facebook:  '#1877F2',
+  tiktok:    '#EE1D52',
+  zalo:      '#0068FF',
+  youtube:   '#FF0000',
+  threads:   '#888888',
+  instagram: '#E1306C',
+}
+
+export default function RightPanel() {
   const { cities, loading: weatherLoading } = useWeather();
-  const { tracks, albums, artists, loading: spotifyLoading, error: spotifyError } = useSpotify();
-  const { movies, loading: tmdbLoading, error: tmdbError } = useTmdb();
-  const [activeSpotifyTab, setActiveSpotifyTab] = useState<SpotifyTab>('songs');
 
   return (
     <aside style={{
@@ -41,51 +40,6 @@ export default function RightPanel({ indicators, econLoading }: RightPanelProps)
       overflow: 'hidden',
       background: 'var(--bg)',
     }}>
-
-      {/* ── ECONOMIC INDICATORS ──────────────────────────── */}
-      <section style={{ padding: 16, borderBottom: '1px solid var(--border)', flexShrink: 0 }}>
-        <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          Chỉ số kinh tế
-          {!econLoading && (
-            <span style={{ fontSize: 8, color: 'var(--green)', fontFamily: 'var(--font-mono)', marginLeft: 'auto' }}>
-              ● LIVE
-            </span>
-          )}
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-          {econLoading
-            ? Array(6).fill(null).map((_, i) => (
-                <div key={i} style={{
-                  background: 'var(--bg3)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 3,
-                  padding: '8px 10px',
-                  opacity: 0.4,
-                  height: 52,
-                }} />
-              ))
-            : indicators.map(ind => (
-                <div key={ind.label} style={{
-                  background: 'var(--bg3)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 3,
-                  padding: '8px 10px',
-                }}>
-                  <div className="label" style={{ marginBottom: 3 }}>{ind.label}</div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700 }}>{ind.value}</div>
-                  <div style={{
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 9,
-                    color: ind.up ? 'var(--green)' : 'var(--red)',
-                    marginTop: 2,
-                  }}>
-                    {ind.up ? '▲' : '▼'} {ind.pct}
-                  </div>
-                </div>
-              ))
-          }
-        </div>
-      </section>
 
       {/* ── WEATHER + AQI ─────────────────────────────────── */}
       <section style={{
@@ -127,19 +81,12 @@ export default function RightPanel({ indicators, econLoading }: RightPanelProps)
                     border: '1px solid var(--border)',
                     borderRadius: 3,
                   }}>
-                    {/* City name */}
                     <span style={{ fontSize: 12, fontWeight: 700 }}>{city.name}</span>
-
-                    {/* Weather icon */}
                     <span style={{ fontSize: 15, textAlign: 'center' }}>{city.icon}</span>
-
-                    {/* Condition + humidity */}
                     <div>
                       <div style={{ fontSize: 11, color: 'var(--text)' }}>{city.condition}</div>
                       <div style={{ fontSize: 10, color: 'var(--muted)' }}>💧 {city.humidity}%  💨 {city.windSpeed}km/h</div>
                     </div>
-
-                    {/* Temp + AQI badge */}
                     <div style={{ textAlign: 'right' }}>
                       <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700 }}>
                         {city.temp}°C
@@ -185,84 +132,51 @@ export default function RightPanel({ indicators, econLoading }: RightPanelProps)
         </div>
       </section>
 
-      {/* ── SPOTIFY TRENDS ───────────────────────────── */}
-      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flexShrink: 0 }}>
-        <div className="section-title">Spotify · Top 10</div>
-        <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-          {(['songs', 'albums', 'artists'] as SpotifyTab[]).map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveSpotifyTab(tab)}
-              style={{
-                background: activeSpotifyTab === tab ? 'var(--bg-active)' : 'var(--bg3)',
-                border: '1px solid var(--border)',
-                borderRadius: 4,
-                padding: '4px 8px',
-                fontSize: 11,
-                fontWeight: 600,
-                color: activeSpotifyTab === tab ? 'var(--text)' : 'var(--muted)',
-                cursor: 'pointer',
-              }}
-            >
-              {tab === 'songs' ? 'Bài hát' : tab === 'albums' ? 'Album' : 'Nghệ sĩ'}
-            </button>
-          ))}
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {spotifyLoading && Array.from({ length: 10 }).map((_, i) => <div key={i} style={{ height: 32, background: 'var(--bg3)', borderRadius: 2 }} />)}
-          {spotifyError && <div style={{ fontSize: 11, color: 'var(--red)' }}>{spotifyError}</div>}
-          {!spotifyLoading && !spotifyError && activeSpotifyTab === 'songs' && tracks.map(song => (
-            <div key={song.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img src={song.cover} width="32" height="32" style={{ borderRadius: 2, flexShrink: 0 }} />
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{song.title}</div>
-                <div style={{ fontSize: 10, color: 'var(--muted)' }}>{song.artist}</div>
-              </div>
-            </div>
-          ))}
-          {!spotifyLoading && !spotifyError && activeSpotifyTab === 'albums' && albums.map(album => (
-            <div key={album.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img src={album.cover} width="32" height="32" style={{ borderRadius: 2, flexShrink: 0 }} />
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{album.title}</div>
-                <div style={{ fontSize: 10, color: 'var(--muted)' }}>{album.artist}</div>
-              </div>
-            </div>
-          ))}
-          {!spotifyLoading && !spotifyError && activeSpotifyTab === 'artists' && artists.map(artist => (
-            <div key={artist.id} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img src={artist.image} width="32" height="32" style={{ borderRadius: '50%', flexShrink: 0 }} />
-              <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 12, fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{artist.name}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── MOVIE TRENDS ───────────────────────────── */}
+      {/* ── SOCIAL MEDIA TRENDS ─────────────────────── */}
       <section style={{ padding: 16, borderTop: '1px solid var(--border)', flex: '1 1 auto', overflowY: 'auto', minHeight: 0 }}>
-        <div className="section-title">Phim ảnh · Thịnh hành</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-          {tmdbLoading && Array.from({ length: 10 }).map((_, i) => <div key={i} style={{ height: 20, background: 'var(--bg3)', borderRadius: 2 }} />)}
-          {tmdbError && <div style={{ fontSize: 11, color: 'var(--red)' }}>{tmdbError}</div>}
-          {!tmdbLoading && !tmdbError && movies.map(movie => (
-            <div key={movie.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
-               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--muted)', width: 16 }}>{movie.rank}</span>
-               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 12, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{movie.title}</div>
-               </div>
-               <span style={{
-                  fontSize: 8,
-                  fontWeight: 700,
-                  padding: '2px 5px',
-                  borderRadius: 2,
-                  background: `${PLATFORM_COLOR[movie.platform]}25`,
-                  color: PLATFORM_COLOR[movie.platform],
-                  flexShrink: 0,
+        <div className="section-title">Mạng xã hội · Đang thịnh hành</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {SOCIAL_TRENDS.map(trend => (
+            <div key={trend.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {/* Rank */}
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--muted)', width: 14, flexShrink: 0 }}>
+                {trend.rank}
+              </span>
+
+              {/* Platform badge */}
+              <span style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 8,
+                fontWeight: 700,
+                padding: '2px 5px',
+                borderRadius: 2,
+                background: `${PLATFORM_COLOR[trend.platform]}20`,
+                color: PLATFORM_COLOR[trend.platform],
+                flexShrink: 0,
+                minWidth: 22,
+                textAlign: 'center',
+              }}>
+                {PLATFORM_LABEL[trend.platform]}
+              </span>
+
+              {/* Topic */}
+              <span style={{ fontSize: 12, fontWeight: 600, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {trend.topic}
+              </span>
+
+              {/* Direction + volume */}
+              <div style={{ flexShrink: 0, textAlign: 'right' }}>
+                <span style={{
+                  fontFamily: 'var(--font-mono)',
+                  fontSize: 9,
+                  color: trend.direction === 'new' ? 'var(--gold)' : 'var(--green)',
                 }}>
-                  {movie.platform}
+                  {trend.direction === 'new' ? 'NEW' : '▲'}
                 </span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 9, color: 'var(--muted)', marginLeft: 4 }}>
+                  {trend.volume}
+                </span>
+              </div>
             </div>
           ))}
         </div>

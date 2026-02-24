@@ -3,7 +3,7 @@
 
 import type {
   NewsItem, WeatherCity, TyphoonInfo, EconIndicator, VideoNewsItem,
-  GoogleTrend, SpotifyTrack, MovieTrend, SpotifyAlbum, SpotifyArtist,
+  GoogleTrend, SocialTrend, SpotifyTrack, MovieTrend, SpotifyAlbum, SpotifyArtist,
 } from '../types'
 
 export const GOOGLE_TRENDS: GoogleTrend[] = [

@@ -1,5 +1,5 @@
 // src/services/tmdb.ts
-import { MovieTrend } from '../types';
+import type { MovieTrend } from '../types';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
