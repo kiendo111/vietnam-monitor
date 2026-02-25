@@ -1,5 +1,6 @@
-import { GOOGLE_TRENDS, SOCIAL_TRENDS } from '../data/mock';
+import { SOCIAL_TRENDS } from '../data/mock';
 import { useWeather } from '../hooks/useWeather';
+import { useGoogleTrends } from '../hooks/useGoogleTrends';
 import type { AqiLevel, Platform } from '../types';
 
 // Maps AQI level to color and Vietnamese label
@@ -31,6 +32,7 @@ const PLATFORM_COLOR: Record<Platform, string> = {
 
 export default function RightPanel() {
   const { cities, loading: weatherLoading } = useWeather();
+  const { trends: googleTrends, loading: trendsLoading, error: trendsError } = useGoogleTrends();
 
   return (
     <aside style={{
@@ -112,21 +114,41 @@ export default function RightPanel() {
 
       {/* ── GOOGLE TRENDS ───────────────────────────── */}
       <section style={{ padding: 16, borderTop: '1px solid var(--border)' }}>
-        <div className="section-title">Google Trends · Việt Nam</div>
+        <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          Google Trends · Việt Nam
+          {!trendsLoading && !trendsError && googleTrends.length > 0 && (
+            <span style={{ fontSize: 8, color: 'var(--green)', fontFamily: 'var(--font-mono)', marginLeft: 'auto' }}>
+              ● LIVE
+            </span>
+          )}
+        </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-          {GOOGLE_TRENDS.map(trend => (
-            <a
-              key={trend.id}
-              href={`https://www.google.com/search?q=${encodeURIComponent(trend.topic)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}
-            >
-              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--muted)', width: 16 }}>{trend.rank}</span>
-              <span style={{ fontSize: 12, fontWeight: 600, flex: 1 }}>{trend.topic}</span>
-              <span style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>{trend.volume}</span>
-            </a>
-          ))}
+          {trendsLoading
+            ? Array(5).fill(null).map((_, i) => (
+                <div key={i} style={{
+                  height: 26,
+                  background: 'var(--bg3)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 2,
+                  opacity: 0.4 + i * 0.05,
+                }} />
+              ))
+            : trendsError
+            ? <span style={{ fontSize: 11, color: 'var(--muted)', fontStyle: 'italic' }}>{trendsError}</span>
+            : googleTrends.map(trend => (
+                <a
+                  key={trend.id}
+                  href={`https://www.google.com/search?q=${encodeURIComponent(trend.topic)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}
+                >
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--muted)', width: 16 }}>{trend.rank}</span>
+                  <span style={{ fontSize: 12, fontWeight: 600, flex: 1 }}>{trend.topic}</span>
+                  <span style={{ fontSize: 10, color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>{trend.volume}</span>
+                </a>
+              ))
+          }
         </div>
       </section>
 
