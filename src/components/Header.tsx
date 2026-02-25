@@ -9,11 +9,13 @@ interface HeaderProps {
   loading: boolean
   theme: 'dark' | 'light'
   onToggleTheme: () => void
+  textSize: 'normal' | 'large'
+  onToggleTextSize: () => void
   isMobile?: boolean
 }
 
 export default function Header({
-  articleCount, sourceCount, lastUpdated, onRefresh, loading, theme, onToggleTheme, isMobile = false
+  articleCount, sourceCount, lastUpdated, onRefresh, loading, theme, onToggleTheme, textSize, onToggleTextSize, isMobile = false
 }: HeaderProps) {
   const [time, setTime] = useState(new Date())
 
@@ -117,6 +119,15 @@ export default function Header({
             {theme === 'dark' ? '☀' : '☾'}
           </button>
 
+          {/* Text size toggle */}
+          <button
+            onClick={onToggleTextSize}
+            title={textSize === 'normal' ? 'Tăng cỡ chữ' : 'Giảm cỡ chữ'}
+            style={{ ...btnStyle, padding: '4px 9px', fontWeight: 700 }}
+          >
+            {textSize === 'normal' ? 'A+' : 'A−'}
+          </button>
+
           {/* Clock — time only */}
           <span style={{
             fontFamily: 'var(--font-mono)',
@@ -208,6 +219,15 @@ export default function Header({
           style={{ ...btnStyle, padding: '3px 10px' }}
         >
           {theme === 'dark' ? '☀ SÁNG' : '☾ TỐI'}
+        </button>
+
+        {/* Text size toggle */}
+        <button
+          onClick={onToggleTextSize}
+          title={textSize === 'normal' ? 'Tăng cỡ chữ' : 'Giảm cỡ chữ'}
+          style={{ ...btnStyle, padding: '3px 10px', fontWeight: 700 }}
+        >
+          {textSize === 'normal' ? 'A+ LỚN' : 'A− NHỎ'}
         </button>
 
         {/* Clock */}

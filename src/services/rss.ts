@@ -72,6 +72,13 @@ function detectSeverity(text: string): NewsItem['severity'] {
   return 'low'
 }
 
+// Decode HTML entities inside CDATA text (e.g. &iacute; → í, &ocirc; → ô)
+const _ta = document.createElement('textarea')
+function decodeHtml(str: string): string {
+  _ta.innerHTML = str
+  return _ta.value
+}
+
 function relativeTime(date: Date): string {
   const mins = Math.floor((Date.now() - date.getTime()) / 60000)
   if (mins < 60) return `${mins} phút trước`
@@ -97,12 +104,12 @@ async function fetchFeed(feed: Feed): Promise<NewsItem[]> {
   }
 
   return items.map((item): NewsItem => {
-    const title   = item.querySelector('title')?.textContent?.trim() ?? 'Không có tiêu đề'
+    const title   = decodeHtml(item.querySelector('title')?.textContent?.trim() ?? 'Không có tiêu đề')
     const rawLink = item.querySelector('link')?.textContent?.trim() || ''
     const guid    = item.querySelector('guid')?.textContent?.trim() || ''
     const link    = rawLink || (guid.startsWith('http') ? guid : '')
     const rawDesc = item.querySelector('description')?.textContent ?? ''
-    const desc    = rawDesc.replace(/<[^>]+>/g, '').trim()
+    const desc    = decodeHtml(rawDesc.replace(/<[^>]+>/g, '').trim())
     const pubRaw  = item.querySelector('pubDate')?.textContent ?? ''
     const pubDate = pubRaw ? new Date(pubRaw) : new Date()
     const safe    = isNaN(pubDate.getTime()) ? new Date() : pubDate

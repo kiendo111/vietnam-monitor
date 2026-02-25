@@ -34,6 +34,19 @@ export default function App() {
 
   const toggleTheme = () => setTheme(t => t === 'dark' ? 'light' : 'dark')
 
+  const [textSize, setTextSize] = useState<'normal' | 'large'>(() => {
+    const saved = (localStorage.getItem('textSize') as 'normal' | 'large') ?? 'normal'
+    document.documentElement.style.zoom = saved === 'large' ? '1.25' : '1'
+    return saved
+  })
+
+  useEffect(() => {
+    document.documentElement.style.zoom = textSize === 'large' ? '1.25' : '1'
+    localStorage.setItem('textSize', textSize)
+  }, [textSize])
+
+  const toggleTextSize = () => setTextSize(s => s === 'normal' ? 'large' : 'normal')
+
   const [activeTab, setActiveTab] = useState<MobileTab>('news')
   const isMobile = useMobile()
 
@@ -52,6 +65,8 @@ export default function App() {
       loading={news.loading}
       theme={theme}
       onToggleTheme={toggleTheme}
+      textSize={textSize}
+      onToggleTextSize={toggleTextSize}
       isMobile={isMobile}
     />
   )
