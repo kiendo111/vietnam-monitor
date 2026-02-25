@@ -1,9 +1,8 @@
 // src/components/LeftPanel.tsx
-// Contains: AI Brief, Video News, Traffic map
+// Contains: AI Brief, Traffic map
 
 import { useEffect } from 'react'
 import { useAiBrief } from '../hooks/useAiBrief'
-import VideoNews from './VideoNews'
 import TrafficMaps from './TrafficMaps'
 import type { NewsItem } from '../types'
 
@@ -83,9 +82,6 @@ export default function LeftPanel({ articles, filterLabel }: LeftPanelProps) {
           {loading ? '◆ ĐANG TẠO…' : btnLabel}
         </button>
       </section>
-
-      {/* ── VIDEO NEWS ───────────────────────────────────── */}
-      <VideoNews />
 
       {/* ── LIVE TRAFFIC ──────────────────────────────────── */}
       <section style={{ padding: 16, borderTop: '1px solid var(--border)' }}>
