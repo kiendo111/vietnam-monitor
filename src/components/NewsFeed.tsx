@@ -70,16 +70,24 @@ export default function NewsFeed({
 
       {/* ── TOP ALERT BANNER ─────────────────────────────── */}
       {!loading && highSeverity.length > 0 && (
-        <div style={{
-          background: 'rgba(200,16,46,0.08)',
-          borderBottom: '1px solid rgba(200,16,46,0.3)',
-          padding: '7px 16px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 10,
-          flexShrink: 0,
-          animation: 'fadeIn 0.3s ease',
-        }}>
+        <a
+          href={highSeverity[0].url}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            textDecoration: 'none',
+            color: 'inherit',
+            background: 'rgba(200,16,46,0.08)',
+            borderBottom: '1px solid rgba(200,16,46,0.3)',
+            padding: '7px 16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            flexShrink: 0,
+            animation: 'fadeIn 0.3s ease',
+            cursor: 'pointer',
+          }}
+        >
           <span style={{
             background: 'var(--red)', color: 'white',
             fontFamily: 'var(--font-mono)', fontSize: 9, fontWeight: 700,
@@ -91,7 +99,7 @@ export default function NewsFeed({
           <span style={{ fontSize: 11, color: 'var(--muted)', flexShrink: 0 }}>
             — {highSeverity[0].source}
           </span>
-        </div>
+        </a>
       )}
 
       {/* ── SEARCH ───────────────────────────────────────── */}
