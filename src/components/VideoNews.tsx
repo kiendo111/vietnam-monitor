@@ -39,9 +39,14 @@ export default function VideoNews() {
           </button>
         ))}
       </div>
-      {loading && <div>Loading...</div>}
-      {error && <div style={{ color: 'var(--red)' }}>{error}</div>}
+      {loading && <div style={{ fontSize: 11, color: 'var(--muted)', fontStyle: 'italic' }}>Đang tải video…</div>}
+      {error && <div style={{ fontSize: 11, color: 'var(--muted)', fontStyle: 'italic' }}>{error}</div>}
       <div style={{ flex: 1, overflowY: 'auto' }}>
+        {!loading && filteredVideos.length === 0 && (
+          <div style={{ fontSize: 11, color: 'var(--muted)', fontStyle: 'italic', padding: '8px 0' }}>
+            {activeTab === 'Live' ? 'Không có stream trực tiếp ngay lúc này.' : 'Không có video.'}
+          </div>
+        )}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
           {filteredVideos.map(video => (
             <a key={video.id} href={video.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>

@@ -187,13 +187,8 @@ export default function App() {
         minHeight: 0,
       }}>
         <LeftPanel articles={filtered} filterLabel={filterLabel} />
-        <div style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
-          <div style={{ flex: 1, overflow: 'auto' }}>
-            <NewsFeed {...newsFeedProps} />
-          </div>
-          <div style={{ height: 300, overflow: 'auto' }}>
-            <VideoNews />
-          </div>
+        <div style={{ overflowY: 'auto' }}>
+          <NewsFeed {...newsFeedProps} />
         </div>
         <RightPanel />
       </div>

@@ -1,9 +1,9 @@
 // src/components/LeftPanel.tsx
-// Contains: AI Brief, Province activity, Traffic map
+// Contains: AI Brief, Video News, Traffic map
 
 import { useEffect } from 'react'
-import { PROVINCES } from '../data/mock'
 import { useAiBrief } from '../hooks/useAiBrief'
+import VideoNews from './VideoNews'
 import TrafficMaps from './TrafficMaps'
 import type { NewsItem } from '../types'
 
@@ -36,7 +36,7 @@ export default function LeftPanel({ articles, filterLabel }: LeftPanelProps) {
       height: '100%',
     }}>
       {/* ── AI BRIEF ─────────────────────────────────────── */}
-      <section style={{ padding: 16, borderBottom: '1px solid var(--border)', flex: 1 }}>
+      <section style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
         <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           AI Daily Brief
           <span style={{ fontSize: 8, color: 'var(--gold)', fontFamily: 'var(--font-mono)', marginLeft: 'auto' }}>
@@ -84,42 +84,11 @@ export default function LeftPanel({ articles, filterLabel }: LeftPanelProps) {
         </button>
       </section>
 
-      {/* ── PROVINCE ACTIVITY ────────────────────────────── */}
-      <section style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
-        <div className="section-title">Hoạt động theo tỉnh</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {PROVINCES.map(p => (
-            <div key={p.name} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              {/* Province name */}
-              <span style={{ flex: 1, fontSize: 12, fontWeight: 600 }}>{p.name}</span>
-              {/* Activity bar */}
-              <div style={{ width: 64, height: 3, background: 'var(--faint)', borderRadius: 2 }}>
-                <div style={{
-                  height: '100%',
-                  width: `${Math.min(100, (p.count / 10) * 100)}%`,
-                  borderRadius: 2,
-                  background: p.level === 'high' ? 'var(--red)'
-                    : p.level === 'medium' ? 'var(--gold)'
-                    : 'var(--muted)',
-                }} />
-              </div>
-              {/* Count */}
-              <span style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 10,
-                color: 'var(--muted)',
-                width: 14,
-                textAlign: 'right',
-              }}>
-                {p.count}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* ── VIDEO NEWS ───────────────────────────────────── */}
+      <VideoNews />
 
       {/* ── LIVE TRAFFIC ──────────────────────────────────── */}
-      <section style={{ padding: 16 }}>
+      <section style={{ padding: 16, borderTop: '1px solid var(--border)' }}>
         <div className="section-title">Giao thông trực tiếp</div>
         <TrafficMaps />
       </section>
