@@ -3,6 +3,7 @@
 
 import { PROVINCES, SOURCES } from '../data/mock'
 import { useAiBrief } from '../hooks/useAiBrief'
+import TrafficMaps from './TrafficMaps'
 import type { NewsItem } from '../types'
 
 interface LeftPanelProps {
@@ -106,7 +107,7 @@ export default function LeftPanel({ articles }: LeftPanelProps) {
       </section>
 
       {/* ── NEWS SOURCES ─────────────────────────────────── */}
-      <section style={{ padding: 16 }}>
+      <section style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
         <div className="section-title">Nguồn theo dõi</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           {SOURCES.map(s => (
@@ -144,6 +145,12 @@ export default function LeftPanel({ articles }: LeftPanelProps) {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── LIVE TRAFFIC ──────────────────────────────────── */}
+      <section style={{ padding: 16 }}>
+        <div className="section-title">Giao thông trực tiếp</div>
+        <TrafficMaps />
       </section>
     </aside>
   )
