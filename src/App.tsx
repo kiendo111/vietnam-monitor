@@ -4,6 +4,8 @@ import { useNews } from './hooks/useNews'
 import { useTyphoon } from './hooks/useTyphoon'
 import { useEcon } from './hooks/useEcon'
 import { useMobile } from './hooks/useMobile'
+import { CATEGORIES } from './data/mock'
+import type { Category } from './types'
 import Header from './components/Header'
 import Ticker from './components/Ticker'
 import TyphoonAlert from './components/TyphoonAlert'
@@ -56,6 +58,28 @@ export default function App() {
   // Single source of truth for market data — shared across Ticker and RightPanel
   const econ = useEcon()
 
+  // ── FILTER STATE (lifted from NewsFeed so LeftPanel can read filtered articles) ──
+  const [activeCategory, setActiveCategory] = useState<Category>('all')
+  const [activeSource, setActiveSource] = useState('All')
+  const [search, setSearch] = useState('')
+
+  const handleSetCategory = (cat: Category) => {
+    setActiveCategory(cat)
+    setActiveSource('All')
+  }
+
+  const filtered = news.articles.filter(item => {
+    const matchCat = activeCategory === 'all' || item.category === activeCategory
+    const matchSource = activeSource === 'All' || item.source === activeSource
+    const q = search.toLowerCase()
+    const matchSearch = !q
+      || item.title.toLowerCase().includes(q)
+      || item.titleEn.toLowerCase().includes(q)
+    return matchCat && matchSource && matchSearch
+  })
+
+  const filterLabel = CATEGORIES.find(c => c.id === activeCategory)?.label ?? 'Tất cả'
+
   const sharedHeader = (
     <Header
       articleCount={news.articles.length}
@@ -70,6 +94,19 @@ export default function App() {
       isMobile={isMobile}
     />
   )
+
+  const newsFeedProps = {
+    articles: news.articles,
+    filtered,
+    loading: news.loading,
+    error: news.error,
+    activeCategory,
+    onSetCategory: handleSetCategory,
+    activeSource,
+    onSetSource: setActiveSource,
+    search,
+    onSearch: setSearch,
+  }
 
   // ── MOBILE LAYOUT ──────────────────────────────────────────────
   if (isMobile) {
@@ -86,7 +123,7 @@ export default function App() {
           {activeTab === 'news' && (
             <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
               <div style={{ flex: 3, minHeight: 0, overflow: 'hidden' }}>
-                <NewsFeed articles={news.articles} loading={news.loading} error={news.error} />
+                <NewsFeed {...newsFeedProps} />
               </div>
               <div style={{ flex: 2, minHeight: 0, overflow: 'auto' }}>
                 <VideoNews />
@@ -98,7 +135,7 @@ export default function App() {
           {activeTab === 'monitor' && <RightPanel />}
 
           {/* ── SOURCES TAB ────────────────────── */}
-          {activeTab === 'sources' && <LeftPanel articles={news.articles} />}
+          {activeTab === 'sources' && <LeftPanel articles={filtered} filterLabel={filterLabel} />}
         </div>
 
         {/* ── BOTTOM TAB BAR ─────────────────── */}
@@ -153,14 +190,10 @@ export default function App() {
         overflow: 'hidden',
         minHeight: 0,
       }}>
-        <LeftPanel articles={news.articles} />
+        <LeftPanel articles={filtered} filterLabel={filterLabel} />
         <div style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
           <div style={{ flex: 1, overflow: 'auto' }}>
-            <NewsFeed
-              articles={news.articles}
-              loading={news.loading}
-              error={news.error}
-            />
+            <NewsFeed {...newsFeedProps} />
           </div>
           <div style={{ height: 300, overflow: 'auto' }}>
             <VideoNews />

@@ -6,7 +6,9 @@ export function useAiBrief() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const generate = async (articles: NewsItem[]) => {
+  const reset = () => setBrief(null)
+
+  const generate = async (articles: NewsItem[], category?: string) => {
     setLoading(true)
     setError(null)
     try {
@@ -14,7 +16,7 @@ export function useAiBrief() {
       const res = await fetch('/api/brief', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ headlines }),
+        body: JSON.stringify({ headlines, category }),
       })
       if (!res.ok) throw new Error()
       const data = await res.json()
@@ -26,5 +28,5 @@ export function useAiBrief() {
     }
   }
 
-  return { brief, loading, error, generate }
+  return { brief, loading, error, generate, reset }
 }

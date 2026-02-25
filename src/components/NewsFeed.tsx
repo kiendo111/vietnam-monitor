@@ -1,8 +1,7 @@
 // src/components/NewsFeed.tsx
-import { useState } from 'react'
-import { CATEGORIES } from '../data/mock'
 import { useNews } from '../hooks/useNews'
-import type { Category } from '../types'
+import { CATEGORIES } from '../data/mock'
+import type { Category, NewsItem } from '../types'
 import { FEEDS } from '../services/rss'
 import SourceSelector from './SourceSelector'
 
@@ -23,35 +22,29 @@ function SkeletonItem() {
 }
 
 interface NewsFeedProps {
-  // We receive the hook result from App.tsx so Header can share it too
+  // ALL articles — for the highSeverity alert banner
   articles: ReturnType<typeof useNews>['articles']
+  // Pre-filtered articles — driven by filter state in App.tsx
+  filtered: NewsItem[]
   loading: boolean
   error: string | null
+  // Filter state (controlled from App.tsx)
+  activeCategory: Category
+  onSetCategory: (cat: Category) => void
+  activeSource: string
+  onSetSource: (src: string) => void
+  search: string
+  onSearch: (s: string) => void
 }
 
-export default function NewsFeed({ articles, loading, error }: NewsFeedProps) {
-  const [activeCategory, setActiveCategory] = useState<Category>('all')
-  const [activeSource, setActiveSource] = useState('All')
-  const [search, setSearch] = useState('')
-
-  const handleSetCategory = (category: Category) => {
-    setActiveCategory(category)
-    setActiveSource('All')
-  }
+export default function NewsFeed({
+  articles, filtered, loading, error,
+  activeCategory, onSetCategory, activeSource, onSetSource, search, onSearch,
+}: NewsFeedProps) {
 
   const sourcesForCategory = activeCategory === 'all'
     ? []
     : [...new Set(FEEDS.filter(f => f.category === activeCategory).map(f => f.source))]
-
-  const filtered = articles.filter(item => {
-    const matchCat = activeCategory === 'all' || item.category === activeCategory
-    const matchSource = activeSource === 'All' || item.source === activeSource
-    const q = search.toLowerCase()
-    const matchSearch = !q
-      || item.title.toLowerCase().includes(q)
-      || item.titleEn.toLowerCase().includes(q)
-    return matchCat && matchSource && matchSearch
-  })
 
   const highSeverity = articles.filter(n => n.severity === 'high')
 
@@ -110,7 +103,7 @@ export default function NewsFeed({ articles, loading, error }: NewsFeedProps) {
       }}>
         <input
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => onSearch(e.target.value)}
           placeholder="🔍  Tìm kiếm tin tức..."
           style={{
             width: '100%',
@@ -139,7 +132,7 @@ export default function NewsFeed({ articles, loading, error }: NewsFeedProps) {
         {CATEGORIES.map(cat => (
           <button
             key={cat.id}
-            onClick={() => handleSetCategory(cat.id as Category)}
+            onClick={() => onSetCategory(cat.id as Category)}
             style={{
               padding: '9px 14px',
               background: 'none', border: 'none',
@@ -159,7 +152,7 @@ export default function NewsFeed({ articles, loading, error }: NewsFeedProps) {
         <SourceSelector
           sources={sourcesForCategory}
           selectedSource={activeSource}
-          onSelectSource={setActiveSource}
+          onSelectSource={onSetSource}
         />
       )}
 
@@ -236,7 +229,7 @@ export default function NewsFeed({ articles, loading, error }: NewsFeedProps) {
               {item.title}
             </div>
 
-            {/* English translation (Phase 4 will fill this in via Claude) */}
+            {/* English translation */}
             {item.titleEn && (
               <div style={{ fontSize: 11, color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.4 }}>
                 {item.titleEn}

@@ -1,17 +1,29 @@
 // src/components/LeftPanel.tsx
-// Contains: AI Brief, Province activity, Source list
+// Contains: AI Brief, Province activity, Traffic map
 
+import { useEffect } from 'react'
 import { PROVINCES } from '../data/mock'
 import { useAiBrief } from '../hooks/useAiBrief'
 import TrafficMaps from './TrafficMaps'
 import type { NewsItem } from '../types'
 
 interface LeftPanelProps {
-  articles: NewsItem[]
+  articles: NewsItem[]   // already-filtered articles from App.tsx
+  filterLabel: string    // e.g. "Tất cả", "Kinh tế", "Thể thao"
 }
 
-export default function LeftPanel({ articles }: LeftPanelProps) {
-  const { brief, loading, error, generate } = useAiBrief()
+export default function LeftPanel({ articles, filterLabel }: LeftPanelProps) {
+  const { brief, loading, error, generate, reset } = useAiBrief()
+
+  // Clear the brief whenever the active filter changes
+  useEffect(() => {
+    reset()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterLabel])
+
+  const btnLabel = filterLabel === 'Tất cả'
+    ? `◆ TÓM TẮT TIN TỨC (${articles.length})`
+    : `◆ TÓM TẮT: ${filterLabel.toUpperCase()} (${articles.length})`
 
   return (
     <aside style={{
@@ -52,8 +64,8 @@ export default function LeftPanel({ articles }: LeftPanelProps) {
             : 'Nhấn nút bên dưới để nhận bản phân tích tin tức Việt Nam hôm nay từ Claude AI.'}
         </div>
         <button
-          onClick={() => generate(articles)}
-          disabled={loading}
+          onClick={() => generate(articles, filterLabel)}
+          disabled={loading || articles.length === 0}
           style={{
             marginTop: 10,
             width: '100%',
@@ -65,10 +77,10 @@ export default function LeftPanel({ articles }: LeftPanelProps) {
             fontSize: 10,
             letterSpacing: '0.1em',
             borderRadius: 3,
-            cursor: loading ? 'not-allowed' : 'pointer',
+            cursor: loading || articles.length === 0 ? 'not-allowed' : 'pointer',
           }}
         >
-          {loading ? '◆ ĐANG TẠO…' : '◆ TẠO BẢN TÓM TẮT AI'}
+          {loading ? '◆ ĐANG TẠO…' : btnLabel}
         </button>
       </section>
 

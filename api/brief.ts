@@ -6,11 +6,13 @@ export default async function handler(req: Request): Promise<Response> {
   if (req.method !== 'POST')
     return new Response('Method Not Allowed', { status: 405 })
 
-  const { headlines } = await req.json() as { headlines: string[] }
+  const { headlines, category } = await req.json() as { headlines: string[]; category?: string }
   if (!headlines?.length)
     return new Response(JSON.stringify({ brief: '' }), { status: 200 })
 
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+  const topicLine = category && category !== 'Tất cả' ? `về mảng **${category}** ` : ''
 
   const msg = await client.messages.create({
     model: 'claude-haiku-4-5-20251001',
@@ -18,7 +20,7 @@ export default async function handler(req: Request): Promise<Response> {
     messages: [{
       role: 'user',
       content:
-        `Bạn là trợ lý phân tích tin tức Việt Nam. Dựa trên các tiêu đề tin tức dưới đây, ` +
+        `Bạn là trợ lý phân tích tin tức Việt Nam. Dựa trên các tiêu đề tin tức ${topicLine}dưới đây, ` +
         `hãy viết một bản tóm tắt ngắn gọn bằng tiếng Việt (4-6 câu), nêu bật các chủ đề ` +
         `và sự kiện quan trọng nhất trong ngày. Phong cách chuyên nghiệp, súc tích.\n\n` +
         headlines.slice(0, 30).map((h, i) => `${i + 1}. ${h}`).join('\n'),
