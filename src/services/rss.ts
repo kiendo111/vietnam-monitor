@@ -7,7 +7,7 @@ interface Feed {
 }
 
 // ── Feed definitions — category is pre-assigned per source ───────────────────
-// RSS paths verified 2026-02-24. Sources that had no working RSS were replaced
+// RSS paths verified 2026-02-25. Sources that had no working RSS were replaced
 // with equivalent category-specific feeds from vnexpress.net or tuoitre.vn.
 
 export const FEEDS: Feed[] = [
@@ -15,32 +15,43 @@ export const FEEDS: Feed[] = [
   { url: '/api/nhandan/rss/home.rss',              source: 'Nhân Dân',            category: 'chinh-tri' },
   { url: '/api/vietnamplus/rss/vna_news.rss',      source: 'VietnamPlus',         category: 'chinh-tri' },
   { url: '/api/baochinhphu/rss/',                  source: 'Báo Chính phủ',       category: 'chinh-tri' },
-  { url: '/api/qdnd/rss/home.rss',                 source: 'Quân đội nhân dân',   category: 'chinh-tri' },
+  { url: '/api/thanhnien/rss/chinh-tri.rss',        source: 'Thanh Niên Chính trị', category: 'chinh-tri' },
+  { url: '/api/vnexpress/rss/thoi-su.rss',         source: 'VnExpress Thời sự',   category: 'chinh-tri' },
+  { url: '/api/vietnamnet/rss/chinh-tri.rss',      source: 'VietnamNet Chính trị',category: 'chinh-tri' },
   // ── Kinh tế & Tài chính
-  { url: '/api/thesaigontimes/feed/',              source: 'Kinh tế Sài Gòn',    category: 'kinh-te' },
-  { url: '/api/vnexpress/rss/kinh-doanh.rss',      source: 'VnExpress Kinh doanh',category: 'kinh-te' },  // replaced cafef (blocks scrapers)
+  { url: '/api/thanhnien/rss/kinh-te.rss',          source: 'Thanh Niên Kinh tế',  category: 'kinh-te' },
+  { url: '/api/vnexpress/rss/kinh-doanh.rss',      source: 'VnExpress Kinh doanh',category: 'kinh-te' },
   { url: '/api/vneconomy/rss.rss',                 source: 'VnEconomy',           category: 'kinh-te' },
   { url: '/api/baodautu/rss/home.rss',             source: 'Báo Đầu tư',         category: 'kinh-te' },
   // ── Pháp luật
   { url: '/api/plo/rss/home.rss',                  source: 'PLO',                 category: 'phap-luat' },
-  { url: '/api/vnexpress/rss/phap-luat.rss',       source: 'VnExpress Pháp luật', category: 'phap-luat' },  // replaced baophapluat (no RSS)
+  { url: '/api/plo/rss/phap-luat-101.rss',         source: 'PLO Pháp luật',       category: 'phap-luat' },
+  { url: '/api/vnexpress/rss/phap-luat.rss',       source: 'VnExpress Pháp luật', category: 'phap-luat' },
   // ── Thể thao
   { url: '/api/vnexpress/rss/the-thao.rss',        source: 'VnExpress Thể thao', category: 'the-thao' },
+  { url: '/api/tuoitre/rss/the-thao.rss',          source: 'Tuổi Trẻ Thể thao',  category: 'the-thao' },
+  { url: '/api/24h/upload/rss/thethao.rss',         source: '24H Thể thao',        category: 'the-thao' },
   { url: '/api/bongda/feed.rss',                   source: 'Bóng đá',            category: 'the-thao' },
-  { url: '/api/bongdaplus/rss/trang-chu.rss',      source: 'Bóng đá Plus',       category: 'the-thao' },
   { url: '/api/thethaovanhoa/rss/home.rss',        source: 'TT&VH',              category: 'the-thao' },
   // ── Giải trí
   { url: '/api/vnexpress/rss/giai-tri.rss',        source: 'VnExpress Giải trí', category: 'giai-tri' },
   { url: '/api/kenh14/rss/home.rss',               source: 'Kenh14',             category: 'giai-tri' },
-  { url: '/api/tuoitre/rss/giai-tri.rss',          source: 'Tuổi Trẻ Giải trí', category: 'giai-tri' },  // replaced znews (no RSS)
+  { url: '/api/kenh14/rss/star.rss',               source: 'Kenh14 Sao',         category: 'giai-tri' },
+  { url: '/api/tuoitre/rss/giai-tri.rss',          source: 'Tuổi Trẻ Giải trí', category: 'giai-tri' },
+  { url: '/api/vietnamnet/rss/giai-tri.rss',       source: 'VietnamNet Giải trí',category: 'giai-tri' },
+  { url: '/api/thanhnien/rss/giai-tri.rss',        source: 'Thanh Niên Giải trí',category: 'giai-tri' },
   // ── Công nghệ
   { url: '/api/tinhte/rss',                        source: 'Tinh tế',            category: 'cong-nghe' },
   { url: '/api/genk/rss/home.rss',                 source: 'GenK',               category: 'cong-nghe' },
-  { url: '/api/vnexpress/rss/so-hoa.rss',          source: 'VnExpress Số hóa',   category: 'cong-nghe' },  // replaced vnreview (no RSS)
+  { url: '/api/vnexpress/rss/so-hoa.rss',          source: 'VnExpress Số hóa',   category: 'cong-nghe' },
+  { url: '/api/vnexpress/rss/khoa-hoc.rss',        source: 'VnExpress Khoa học', category: 'cong-nghe' },
+  { url: '/api/vietnamnet/rss/cong-nghe.rss',      source: 'VietnamNet Công nghệ',category: 'cong-nghe' },
+  { url: '/api/tuoitre/rss/khoa-hoc.rss',          source: 'Tuổi Trẻ Khoa học',  category: 'cong-nghe' },
+  { url: '/api/tuoitre/rss/cong-nghe.rss',         source: 'Tuổi Trẻ Công nghệ', category: 'cong-nghe' },
   // ── English
   { url: '/api/evnexpress/rss/news.rss',           source: "VnExpress Int'l",    category: 'english' },
   { url: '/api/vietnamnews/rss/home.rss',          source: 'Vietnam News',       category: 'english' },
-  { url: '/api/tuoitrenews/feed/',                 source: 'Tuổi Trẻ News',      category: 'english' },   // replaced english.thesaigontimes (HTTP 500)
+  { url: '/api/tuoitrenews/rss',                   source: 'Tuổi Trẻ News',      category: 'english' },
   { url: '/api/vir/rss_feed/',                     source: 'VIR',                category: 'english' },
 ]
 
@@ -87,7 +98,9 @@ async function fetchFeed(feed: Feed): Promise<NewsItem[]> {
 
   return items.map((item): NewsItem => {
     const title   = item.querySelector('title')?.textContent?.trim() ?? 'Không có tiêu đề'
-    const link    = item.querySelector('link')?.textContent?.trim() ?? '#'
+    const rawLink = item.querySelector('link')?.textContent?.trim() || ''
+    const guid    = item.querySelector('guid')?.textContent?.trim() || ''
+    const link    = rawLink || (guid.startsWith('http') ? guid : '')
     const rawDesc = item.querySelector('description')?.textContent ?? ''
     const desc    = rawDesc.replace(/<[^>]+>/g, '').trim()
     const pubRaw  = item.querySelector('pubDate')?.textContent ?? ''
