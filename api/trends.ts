@@ -40,7 +40,7 @@ export default async function handler(_req: Request): Promise<Response> {
     let match: RegExpExecArray | null
     let rank = 1
 
-    while ((match = itemRegex.exec(xml)) !== null && rank <= 10) {
+    while ((match = itemRegex.exec(xml)) !== null && rank <= 5) {
       const block = match[1]
 
       // Title may be wrapped in CDATA or plain
