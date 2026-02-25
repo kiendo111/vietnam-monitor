@@ -84,7 +84,7 @@
 
 /* ── RESET ─────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body, #root { height: 100%; overflow: hidden; }
+html, body, #root { height: 100%; overflow: auto; }
 html { -webkit-text-size-adjust: 100%; }   /* prevent iOS font scaling on rotate */
 
 /* Full-viewport container that accounts for iOS Safari's collapsing address bar.
@@ -94,7 +94,7 @@ html { -webkit-text-size-adjust: 100%; }   /* prevent iOS font scaling on rotate
   height: 100dvh;     /* dynamic viewport — hides/shows with browser chrome */
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
 }
 body {
   background: var(--bg);

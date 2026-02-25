@@ -80,7 +80,7 @@ export default function App() {
         <TyphoonAlert typhoon={typhoon} />
 
         {/* Active tab content */}
-        <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+        <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', paddingBottom: 44 }}>
 
           {/* ── NEWS TAB ───────────────────────── */}
           {activeTab === 'news' && (
@@ -103,10 +103,14 @@ export default function App() {
 
         {/* ── BOTTOM TAB BAR ─────────────────── */}
         <nav style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
           display: 'flex',
           borderTop: '1px solid var(--border)',
           background: 'var(--bg2)',
-          flexShrink: 0,
         }}>
           {MOBILE_TABS.map(tab => (
             <button
@@ -150,7 +154,7 @@ export default function App() {
         minHeight: 0,
       }}>
         <LeftPanel articles={news.articles} />
-        <div style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
           <div style={{ flex: 1, overflow: 'auto' }}>
             <NewsFeed
               articles={news.articles}

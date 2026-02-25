@@ -37,7 +37,7 @@ export default function RightPanel() {
       borderLeft: '1px solid var(--border)',
       display: 'flex',
       flexDirection: 'column',
-      overflow: 'hidden',
+      overflowY: 'auto',
       background: 'var(--bg)',
       height: '100%',
     }}>
@@ -46,9 +46,6 @@ export default function RightPanel() {
       <section style={{
         padding: 16,
         borderBottom: '1px solid var(--border)',
-        flex: 1,
-        overflowY: 'auto',
-        minHeight: 0,
       }}>
         <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           Thời tiết & Chất lượng không khí
@@ -114,7 +111,7 @@ export default function RightPanel() {
       </section>
 
       {/* ── GOOGLE TRENDS ───────────────────────────── */}
-      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flex: 1, overflowY: 'auto', minHeight: 0 }}>
+      <section style={{ padding: 16, borderTop: '1px solid var(--border)' }}>
         <div className="section-title">Google Trends · Việt Nam</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           {GOOGLE_TRENDS.map(trend => (
@@ -134,7 +131,7 @@ export default function RightPanel() {
       </section>
 
       {/* ── SOCIAL MEDIA TRENDS ─────────────────────── */}
-      <section style={{ padding: 16, borderTop: '1px solid var(--border)', flex: 1, overflowY: 'auto', minHeight: 0 }}>
+      <section style={{ padding: 16, borderTop: '1px solid var(--border)' }}>
         <div className="section-title">Mạng xã hội · Đang thịnh hành</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {SOCIAL_TRENDS.map(trend => (

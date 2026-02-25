@@ -1,7 +1,7 @@
 // src/components/LeftPanel.tsx
 // Contains: AI Brief, Province activity, Source list
 
-import { PROVINCES, SOURCES } from '../data/mock'
+import { PROVINCES } from '../data/mock'
 import { useAiBrief } from '../hooks/useAiBrief'
 import TrafficMaps from './TrafficMaps'
 import type { NewsItem } from '../types'
@@ -24,7 +24,7 @@ export default function LeftPanel({ articles }: LeftPanelProps) {
       height: '100%',
     }}>
       {/* ── AI BRIEF ─────────────────────────────────────── */}
-      <section style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
+      <section style={{ padding: 16, borderBottom: '1px solid var(--border)', flex: 1 }}>
         <div className="section-title" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           AI Daily Brief
           <span style={{ fontSize: 8, color: 'var(--gold)', fontFamily: 'var(--font-mono)', marginLeft: 'auto' }}>
@@ -100,47 +100,6 @@ export default function LeftPanel({ articles }: LeftPanelProps) {
                 textAlign: 'right',
               }}>
                 {p.count}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── NEWS SOURCES ─────────────────────────────────── */}
-      <section style={{ padding: 16, borderBottom: '1px solid var(--border)' }}>
-        <div className="section-title">Nguồn theo dõi</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-          {SOURCES.map(s => (
-            <div key={s.name} style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '6px 10px',
-              background: 'var(--bg3)',
-              border: '1px solid var(--border)',
-              borderRadius: 3,
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                {/* Green "live" dot */}
-                <div style={{
-                  width: 5, height: 5,
-                  borderRadius: '50%',
-                  background: 'var(--green)',
-                  animation: 'pulse 3s infinite',
-                }} />
-                <span style={{ fontSize: 12, fontWeight: 600 }}>{s.name}</span>
-              </div>
-              <span style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 8,
-                padding: '2px 5px',
-                borderRadius: 2,
-                background: s.lang === 'VI'
-                  ? 'rgba(200,16,46,0.15)'
-                  : 'rgba(245,166,35,0.15)',
-                color: s.lang === 'VI' ? 'var(--red)' : 'var(--gold)',
-              }}>
-                {s.lang}
               </span>
             </div>
           ))}
