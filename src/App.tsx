@@ -120,22 +120,18 @@ export default function App() {
         <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', paddingBottom: 44 }}>
 
           {/* ── NEWS TAB ───────────────────────── */}
-          {activeTab === 'news' && (
-            <div style={{ height: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-              <div style={{ flex: 3, minHeight: 0, overflow: 'hidden' }}>
-                <NewsFeed {...newsFeedProps} />
-              </div>
-              <div style={{ flex: 2, minHeight: 0, overflow: 'auto' }}>
-                <VideoNews />
-              </div>
-            </div>
-          )}
+          {activeTab === 'news' && <NewsFeed {...newsFeedProps} />}
 
           {/* ── MONITOR TAB ────────────────────── */}
           {activeTab === 'monitor' && <RightPanel />}
 
           {/* ── SOURCES TAB ────────────────────── */}
-          {activeTab === 'sources' && <LeftPanel articles={filtered} filterLabel={filterLabel} />}
+          {activeTab === 'sources' && (
+            <>
+              <LeftPanel articles={filtered} filterLabel={filterLabel} />
+              <VideoNews />
+            </>
+          )}
         </div>
 
         {/* ── BOTTOM TAB BAR ─────────────────── */}
